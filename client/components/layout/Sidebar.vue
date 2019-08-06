@@ -97,11 +97,22 @@ export default {
   computed: {
     ...mapGetters({
       menu: 'menuitems',
-      user: 'user'
+      user: 'user',
+      isProvisioned: 'isProvisioned'
     }),
     filteredMenu () {
       // copy menu
       const m = JSON.parse(JSON.stringify(this.menu))
+      // if user is not provisioned yet, don't show them any menu items except Home
+      if (!this.isProvisioned) {
+        // for each folder
+        for (const folder of m) {
+          // filter all menu items except for Home
+          folder.children = folder.children.filter(v => v.name === 'Home')
+        }
+        // return only this list for unprovisioned user, ignoring text filter
+        return m
+      }
       // iterate over menu folders
       for (const item of m) {
         // filter children
