@@ -1,10 +1,10 @@
 <template>
   <div id="app">
-    <b-loading :is-full-page="true" :active="!authenticated && production" :can-cancel="false"></b-loading>
+    <b-loading :is-full-page="true" :active="!authCheckDone" :can-cancel="false"></b-loading>
     <div v-if="authenticated">
       <!-- endpoints have not finished loading yet -->
-      <b-loading :is-full-page="true" :active="!endpointsLoaded" :can-cancel="false"></b-loading>
-      <div v-if="endpointsLoaded">
+      <b-loading :is-full-page="true" :active="!authCheckDone" :can-cancel="false"></b-loading>
+      <div v-if="authCheckDone">
         <nprogress-container></nprogress-container>
         <navbar :show="true" :menu-filter.sync="menuFilter"></navbar>
         <sidebar :show="sidebar.opened && !sidebar.hidden" :menu-filter="menuFilter"></sidebar>
