@@ -38,6 +38,7 @@ const actions = {
     commit(types.FORWARD_TO, data)
   },
   setJwt ({commit}, data) {
+    console.log('setting JWT in localStorage and state')
     commit(types.SET_JWT, data)
     // set authToken in localStorage also
     window.localStorage.setItem('jwt', data)
@@ -143,7 +144,7 @@ const actions = {
       console.log('JWT login token found in localStorage. checking it...')
       // load user. this should validate JWT on server.
       try {
-        const response = await load(getters.instance, getters.jwt, getters.endpoints.user)
+        const response = await load(getters.instance, jwt, getters.endpoints.user)
         //
         console.log('checkLogin get user response =', response)
         dispatch('setJwt', jwt)
