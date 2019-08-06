@@ -11,10 +11,6 @@
         <app-main></app-main>
       </div>
     </div>
-    <div v-if="authCheckDone && !authenticated">
-      <!-- JWT checked, user is not logged in -->
-      <!-- You are not logged in -->
-    </div>
   </div>
 </template>
 
