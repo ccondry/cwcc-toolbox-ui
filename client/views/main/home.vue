@@ -46,7 +46,7 @@
               </p>
             </b-field>
             <b-field>
-              <button class="button is-success">Provision Me</button>
+              <button class="button is-success" @click.prevent="clickProvision">Provision Me</button>
             </b-field>
           </article>
         </div>
@@ -68,7 +68,8 @@ export default {
   methods: {
     ...mapActions([
       'inviteToSupportRoom',
-      'getProvisionStatus'
+      'getProvisionStatus',
+      'provisionUser'
     ]),
     showDialog (event) {
       // show dialog
@@ -85,6 +86,10 @@ export default {
           this.inviteToSupportRoom({email})
         }
       })
+    },
+    clickProvision () {
+      console.log('user clicked Provision Me button')
+      this.provisionUser()
     }
   },
 
