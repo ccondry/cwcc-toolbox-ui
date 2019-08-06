@@ -34,30 +34,20 @@
     </div>
 
     <div v-if="!loading.user.provision">
-        <!-- done loading -->
+      <!-- done loading -->
       <div class="tile is-ancestor" v-if="!isProvisioned">
         <div class="tile is-parent is-12">
           <article class="tile is-child box">
             <h1 class="title">Provision</h1>
-            <!-- <div v-if="loading.user.provision">
-              Loading...
-            </div> -->
-            <!-- <b-loading :is-full-page="false" :active="true" :can-cancel="false"></b-loading> -->
-            <!-- <div class="loading-overlay is-active">
-              <div class="loading-background"></div>
-              <div class="loading-icon"></div>
-            </div> -->
-            <!-- <b-icon :icon=""></b-icon> -->
-
-
-              <div v-if="isProvisioned">
-                Yes
-              </div>
-              <div >
-                <button>Provision Me</button>
-              </div>
-            <!-- <b-loading :is-full-page="false" :active="loading.user.provision" :can-cancel="false"></b-loading> -->
-
+            <b-field>
+              <p>
+                Your account is not provisioned for this demo yet. Would you like
+                to provision it now?
+              </p>
+            </b-field>
+            <b-field>
+              <button class="button is-success">Provision Me</button>
+            </b-field>
           </article>
         </div>
       </div>
