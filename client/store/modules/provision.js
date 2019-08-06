@@ -6,7 +6,8 @@ const state = {
 }
 
 const getters = {
-  provisionStatus: state => state.status
+  provisionStatus: state => state.status,
+  isProvisioned: state => state.status !== null && Object.keys(state.status) > 0
 }
 
 const mutations = {
@@ -16,11 +17,12 @@ const mutations = {
 }
 
 const actions = {
-  async getProvisionStatus ({getters, commit, dispatch}, {showNotification = true}) {
+  async getProvisionStatus ({getters, commit, dispatch}, showNotification = true) {
     dispatch('setLoading', {group: 'user', type: 'provision', value: true})
     console.log('loading provision status...')
     try {
       const endpoint = getters.endpoints.provision
+      console.log('loading provision status from endpoint', endpoint, '...')
       const response = await load(getters.instance, getters.jwt, endpoint)
       console.log('load provision status - response:', response)
       commit(types.SET_PROVISION_STATUS, response.data)

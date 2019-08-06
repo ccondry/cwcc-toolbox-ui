@@ -1,17 +1,19 @@
 <template>
   <div id="app">
     <b-loading :is-full-page="true" :active="!authenticated && production" :can-cancel="false"></b-loading>
-    <div v-if="authenticated || !production">
-      <div v-if="!endpointsLoaded">
-        <!-- endpoints have not finished loading yet -->
-        <b-loading :is-full-page="true" :active="!endpointsLoaded && production" :can-cancel="false"></b-loading>
-      </div>
-      <div v-if="endpointsLoaded || !production">
+    <div v-if="authenticated">
+      <!-- endpoints have not finished loading yet -->
+      <b-loading :is-full-page="true" :active="!endpointsLoaded" :can-cancel="false"></b-loading>
+      <div v-if="endpointsLoaded">
         <nprogress-container></nprogress-container>
         <navbar :show="true" :menu-filter.sync="menuFilter"></navbar>
         <sidebar :show="sidebar.opened && !sidebar.hidden" :menu-filter="menuFilter"></sidebar>
         <app-main></app-main>
       </div>
+    </div>
+    <div v-if="authCheckDone && !authenticated">
+      <!-- JWT checked, user is not logged in -->
+      You are not logged in
     </div>
   </div>
 </template>
@@ -25,7 +27,8 @@ export default {
   data () {
     return {
       menuFilter: '',
-      production: process.env.NODE_ENV === 'production'
+      production: process.env.NODE_ENV === 'production',
+      authCheckDone: false
     }
   },
 
@@ -36,7 +39,7 @@ export default {
     NprogressContainer
   },
 
-  async beforeMount () {
+  beforeMount () {
     const { body } = document
     const WIDTH = 768
     const RATIO = 3
@@ -56,48 +59,10 @@ export default {
     document.addEventListener('visibilitychange', handler)
     window.addEventListener('DOMContentLoaded', handler)
     window.addEventListener('resize', handler)
-
-    // check the JWT in localstorage to see if the user is already logged in
-    // try {
-    console.log('checking login...')
-    await this.checkLogin()
-    console.log('checking login done.')
-    if (this.authenticated || !this.production) {
-      // logged in
-      // console.log('getting instances...')
-      // await this.getInstances(false)
-      // console.log('getting instances done.')
-      console.log('getting endpoints...')
-      await this.getEndpoints(false)
-      console.log('getting endpoints done.')
-      // load the dcloud session details
-      // await this.getSession(false)
-    } else {
-      // not logged in
-    }
-      // logged in
-    // } catch (e) {
-      // not logged in, so go to login page
-      // return router.push('Login')
-    // }
-
-    // if (this.authEnabled === true) {
-    //   try {
-    //     await this.checkLogin()
-    //   } catch (e) {
-    //     console.log(e.message)
-    //     console.log('this.$route', this.$route)
-    //     if (this.$route.name === 'Password Reset') {
-    //       // leave it
-    //     } else {
-    //       // go to login screen
-    //       this.$router.push('Login')
-    //     }
-    //   }
-    // }
   },
 
-  async mounted () {
+  mounted () {
+    this.authCheck()
   },
 
   computed: {
@@ -108,7 +73,6 @@ export default {
       'loading',
       'endpoints',
       'endpointsLoaded'
-      // 'instancesLoaded'
     ])
   },
 
@@ -118,9 +82,45 @@ export default {
       'toggleSidebar',
       'checkLogin',
       'getEndpoints',
-      'getSession'
-      // 'getInstances'
-    ])
+      'getSession',
+      'setJwt'
+    ]),
+    async authCheck () {
+      try {
+        console.log('getting endpoints...')
+        await this.getEndpoints(false)
+        console.log('getting endpoints done.')
+
+        // check the JWT in localstorage to see if the user is already logged in
+        console.log('checking login...')
+        await this.checkLogin()
+        console.log('checking login done.')
+        this.authCheckDone = true
+        if (this.authenticated === false) {
+          // user is not authenticated - send them to login
+          if (this.production) {
+            // production - redirect to login page
+            window.location = '/auth/login?destination=' + window.location
+          } else {
+            // development - pop JWT form
+            this.clickLogin()
+          }
+        }
+      } catch (e) {
+        console.log('failed to get endpoints and check login:', e.message)
+      }
+    },
+    clickLogin () {
+      this.$dialog.prompt({
+        message: `Enter your JWT to log in`,
+        inputAttrs: {
+          placeholder: 'JWT'
+        },
+        onConfirm: (value) => {
+          this.setJwt(value)
+        }
+      })
+    }
   },
   watch: {
     async authenticated (val, oldVal) {
@@ -131,15 +131,6 @@ export default {
           window.location = '/auth/login?destination=' + window.location
         }
       }
-      // if the user logged in, load endpoints
-      // if (oldVal === false && val === true) {
-      //   // get instances
-      //   await this.getInstances(false)
-      //   // get endpoints
-      //   await this.getEndpoints()
-      //   // get dCloud session information
-      //   await this.getSession(false)
-      // }
     }
   }
 }

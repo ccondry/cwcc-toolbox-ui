@@ -49,12 +49,14 @@ const mutations = {
 
 const actions = {
   async getEndpoints ({getters, commit, dispatch}, showNotification = true) {
+    // production / development base API URL
+    const url = getters.isProduction ? '/api/v1/cwcc/endpoints' : 'http://localhost:3049/api/v1/cwcc/endpoints'
     // mark loading started
     dispatch('setLoading', {group: 'app', type: 'endpoints', value: true})
     try {
-      console.log('getting endpoints for instance', getters.instance)
+      console.log('getting endpoints')
       // get endpoints from API server
-      const response = await load(getters.instance, getters.jwt, getters.endpoints.endpoints)
+      const response = await load(getters.instance, getters.jwt, url)
       // set the endpoints data in state
       await commit(types.SET_ENDPOINTS, response.data)
       // mark endpoints as loaded

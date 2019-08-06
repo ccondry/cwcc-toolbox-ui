@@ -1,12 +1,17 @@
 import * as types from '../mutation-types'
 import axios from 'axios'
-import { post } from '../../utils'
+import { post, load } from '../../utils'
 
 function parseJwt (token) {
   var base64Url = token.split('.')[1]
   var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
   return JSON.parse(window.atob(base64))
 }
+
+// function getSeconds () {
+//   const secs = Date.now() / 1000
+//   return Math.floor(secs)
+// }
 
 const state = {
   jwt: null,
@@ -135,73 +140,28 @@ const actions = {
     const jwt = window.localStorage.getItem('jwt')
     // if we found a token, check the web service to see if it's still valid
     if (jwt !== null) {
-      console.log('JWT login token found in localStorage')
-      console.log('saving JWT in state')
-      dispatch('setJwt', jwt)
+      console.log('JWT login token found in localStorage. checking it...')
+      // load user. this should validate JWT on server.
+      try {
+        const response = await load(getters.instance, getters.jwt, getters.endpoints.user)
+        //
+        console.log('checkLogin get user response =', response)
+        dispatch('setJwt', jwt)
+      } catch (e) {
+        console.log('JWT check failed:', e.response.status, e.response.data)
+        if (e.response.status === 401) {
+          // JWT invalid - delete it from localStorage
+          dispatch('unsetJwt')
+        }
+      }
     } else {
       console.log('JWT not found in localstorage.')
-      // forward user to login page if not development
+      // forward user to login page if production
       if (process.env.NODE_ENV === 'production') {
         window.location = '/auth/login?destination=' + window.location
-      }
-    }
-  },
-  async sendPasswordResetEmail ({getters, dispatch, commit, rootState}, data) {
-    // try reset password request
-    try {
-      // send data as email or username depending on contents
-      let body
-      if (data.indexOf('@') > 0) {
-        body = {email: data}
       } else {
-        body = {username: data}
+        // TODO pop JWT login form for development
       }
-      const response = await axios.post(`/auth/password/reset/request`, body)
-      // if successful
-      if (response.status >= 200 && response.status < 300) {
-        dispatch('successNotification', {
-          title: `Password Reset Email Sent`,
-          message: 'You should be receiving an email shortly with the link to reset your password.',
-          duration: 12000
-        })
-      } else {
-        dispatch('errorNotification', {
-          title: `Failed to Send Password Reset Email`,
-          message: `${response.status} ${response.statusText}`
-        })
-      }
-    } catch (error) {
-      console.log(error)
-      dispatch('errorNotification', {
-        title: `Failed to Send Password Reset Email`,
-        message: `${error.response.status} ${error.response.statusText}`
-      })
-      throw error
-    }
-  },
-  async resetPassword ({getters, dispatch}, data) {
-    // try password reset request
-    try {
-      const response = await axios.post(`/auth/password/reset`, data)
-      // if successful
-      if (response.status >= 200 && response.status < 300) {
-        dispatch('successNotification', {
-          title: `Password Reset Successful`,
-          message: 'You can now log in with your new password.'
-        })
-      } else {
-        dispatch('errorNotification', {
-          title: `Failed to Reset Password`,
-          message: `${response.status} ${response.statusText}`
-        })
-      }
-    } catch (error) {
-      console.log(error)
-      dispatch('errorNotification', {
-        title: `Failed to Reset Password`,
-        message: `${error.response.status} ${error.response.statusText}`
-      })
-      throw error
     }
   }
 }
