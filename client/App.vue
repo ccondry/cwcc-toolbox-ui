@@ -126,9 +126,12 @@ export default {
     async authenticated (val, oldVal) {
       // if user goes from logged in to logged out, forward them to the login page
       if (oldVal === true && val === false) {
-        // if development, don't forward them
         if (this.production) {
+          // production - redirect to login page
           window.location = '/auth/login?destination=' + window.location
+        } else {
+          // development - pop JWT form
+          this.clickLogin()
         }
       }
     }
