@@ -7,7 +7,7 @@ const state = {
 
 const getters = {
   provisionStatus: state => state.status,
-  isProvisioned: state => state.status !== null && Object.keys(state.status) > 0
+  isProvisioned: state => state.status !== null && Object.keys(state.status).length > 0
 }
 
 const mutations = {

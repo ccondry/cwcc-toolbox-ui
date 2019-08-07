@@ -20,19 +20,19 @@ export default {
       component: lazyLoading('main/home')
     },
     {
-      name: 'Agent',
-      path: path + '/agent',
+      name: 'Agents',
+      path: path + '/agents',
       meta: {
         icon: 'account-multiple',
         description: 'Agent Desktop'
       },
-      component: lazyLoading('main/agent')
+      component: lazyLoading('main/agents')
     },
     {
       name: 'Demo',
       path: path + '/demo',
       meta: {
-        icon: 'account-star',
+        icon: 'view-quilt',
         description: 'Demo Website'
       },
       component: lazyLoading('main/demo')
