@@ -58,7 +58,7 @@ export default {
   },
 
   mounted () {
-    this.authCheck()
+    this.authCheck().then(r => this.getProvisionStatus())
   },
 
   computed: {
@@ -79,7 +79,8 @@ export default {
       'checkLogin',
       'getEndpoints',
       'getSession',
-      'setJwt'
+      'setJwt',
+      'getProvisionStatus'
     ]),
     async authCheck () {
       try {

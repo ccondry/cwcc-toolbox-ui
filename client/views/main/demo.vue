@@ -1,39 +1,80 @@
 <template>
   <div>
-    <!-- Loading Indicator -->
-    <b-loading :is-full-page="false" :active="loading.app.user || working.app.user || working.user.provision || loading.user.provision" :can-cancel="false"></b-loading>
-
-    <div class="tile is-ancestor">
-      <div class="tile is-parent is-vertical">
-        <article class="tile is-child box">
-          <h1 class="title">Provisioning</h1>
+  <div class="tile is-ancestor">
+    <div class="tile is-parent is-vertical">
+      <article class="tile is-child box">
+        <h1 class="title">
+          Demo Website
+        </h1>
+        <div class="content">
+          <div class="select">
+            <select class="input" v-model="vertical" @change="verticalChanged">
+              <option value="" disabled selected>Choose Your Demo Vertical</option>
+              <option v-for="brand in systemBrands" :value="brand.id">{{ `${brand.name} (${brand.id})` }}</option>
+              <option disabled>-----------------------------------------</option>
+              <option v-for="brand in userBrands" :value="brand.id" v-if="brandFilter === 'all'">{{ `${brand.name} (${brand.id})` }}</option>
+              <option v-for="brand in myBrands" :value="brand.id" v-if="brandFilter === 'mine'">{{ `${brand.name} (${brand.id})` }}</option>
+              <option v-for="brand in filteredSortedBrands" :value="brand.id" v-if="brandFilter === 'other'">{{ `${brand.name} (${brand.id})` }}</option>
+            </select>
+          </div>
+          <button class="button is-success">Go to Demo Website</button>
           <b-field>
-            <button class="button is-primary" @click="clickProvision" :disabled="working.user.provision">Provision Me!</button>
+            <b-checkbox v-model="showMore">Show More</b-checkbox>
           </b-field>
-          <p>
-            Overall Status:
-            <strong>
-              {{ loading.user.provision ? 'Loading...' : provisionStatus.status }}
-            </strong>
+          <b-field v-show="showMore">
+            <div class="field">
+              <div class="field">
+                <b-radio v-model="brandFilter"
+                v-if="user.admin"
+                native-value="all">Show all verticals</b-radio>
+              </div>
+              <div class="field">
+                <b-radio v-model="brandFilter"
+                native-value="mine">Show my verticals</b-radio>
+              </div>
+              <div class="field">
+                <b-radio v-model="brandFilter"
+                native-value="other">
+                <span style="float: left;">Show this user's verticals:</span>
+                <b-autocomplete
+                  v-model="ownerFilter"
+                  :data="autocompleteOwners">
+                  <template slot="empty">No results found</template>
+                </b-autocomplete>
+              </b-radio>
+              </div>
+            </div>
+          </b-field>
+            <p>
+              Note: You can create and configure your own vertical on the
+            <a href="/branding" target="brand-toolbox">
+              <strong>Demo Branding Toolbox</strong>
+            </a>.
           </p>
-          <p>
-            CUCM Sync Status:
-            <strong>{{ provisionStatus.cucmLdapSync }}</strong>
-          </p>
-          <p>
-            UCCX Sync Status:
-            <strong>{{ provisionStatus.uccxUserSync }}</strong>
-          </p>
-          <p>
-            Progress:
-            <strong>{{ progress }}%</strong>
-            <progress class="progress is-success" :value="progress" max="100">{{ progress }}%</progress>
-          </p>
-        </article>
-      </div>
+        </div>
+      </article>
     </div>
-
   </div>
+
+  <div class="tile is-ancestor">
+    <div class="tile is-parent is-vertical">
+      <article class="tile is-child box">
+        <h1 class="title">
+          Voice Demo
+        </h1>
+        <div class="content">
+          <p>
+            Call this demo number to start the demo:
+          </p>
+          <p>
+            <strong>+1 919-474-5775</strong>
+          </p>
+        </div>
+      </article>
+    </div>
+  </div>
+
+</div>
 </template>
 
 <script>
@@ -45,137 +86,133 @@ export default {
 
   data () {
     return {
-      interval: null,
-      delay: 10
+      showModal: false,
+      model: {},
+      ownerFilter: '',
+      brandFilter: 'mine',
+      vertical: 'finance',
+      showMore: false
     }
-  },
-
-  mounted () {
-    // get status once at first mount
-    this.getProvisionStatus(false)
-  },
-
-  beforeRouteLeave (to, from, next) {
-    // stop the interval when navigating away from this view
-    clearInterval(this.interval)
-    next()
-  },
-
-  beforeRouteEnter (to, from, next) {
-    next(vm => {
-      // check if status is not complete yet
-      if (vm.provisionStatus && vm.provisionStatus.status !== 'complete') {
-        // get updated data now
-        vm.getProvisionStatus(false)
-        // set up the interval to get new data every <delay> seconds
-        vm.interval = setInterval(() => {
-          vm.getProvisionStatus(false)
-        }, vm.delay * 1000)
-      }
-    })
   },
 
   methods: {
     ...mapActions([
-      'getProvisionStatus',
-      'provisionUser'
+      'loadDemoConfig',
+      'errorNotification',
+      'saveDemoConfig',
+      'loadVerticals'
     ]),
-    async clickProvision () {
-      console.log('clicked provision')
-      // if user is admin using switch-user, don't prompt them for the user's
-      // password, which they should not know
-      if (this.user.suJwt) {
-        // wait for provision action to start
-        await this.provisionUser({password: 'ignore'})
-        // get provision status now after a moment
-        this.getProvisionStatus(false)
-        // set up the interval to get new data every <delay> seconds
-        clearInterval(this.interval)
-        this.interval = setInterval(() => {
-          this.getProvisionStatus(false)
-        }, this.delay * 1000)
-        return
-      }
-      this.$dialog.prompt({
-        message: `Please enter your password to provision your UCCX department:`,
-        inputAttrs: {
-          placeholder: 'your dCloud Toolbox password',
-          type: 'password'
-        },
-        onConfirm: async (password) => {
-          // wait for provision action to start
-          await this.provisionUser({password})
-          // get provision status now
-          this.getProvisionStatus(false)
-          // set up the interval to get new data every <delay> seconds
-          clearInterval(this.interval)
-          this.interval = setInterval(() => {
-            this.getProvisionStatus(false)
-          }, this.delay * 1000)
-          // this.$toast.open(`Your name is: ${value}`)
-        }
-      })
+    verticalChanged (e) {
+      console.log('vertical changed', e.target.value)
+      // save vertical
+      // await this.saveDemoConfig({data})
+      // await this.loadDemoConfig(false)
     },
-    clickStatus () {
-      console.log('clicked get provision status')
-      // this.getProvisionStatus({showNotification: true})
+    async clickSave () {
+      try {
+        // copy model to a local var
+        const data = JSON.parse(JSON.stringify(this.model))
+        // remove empty strings from the data, so that those values are not unset on server side
+        for (const key of Object.keys(data)) {
+          if (data[key] === '') {
+            delete data[key]
+          }
+        }
+        // confirm with user and save the data to the server
+        this.confirmSaveDemoConfig({data})
+      } catch (e) {
+        // failed to save data
+        console.log('failed to save demo configuration ', e.message)
+        this.$toast.open({
+          message: 'Failed to save demo configuration.',
+          type: 'is-danger'
+        })
+      }
+    },
+    updateCache (data) {
+      // copy state data to local data
+      try {
+        this.model = JSON.parse(JSON.stringify(data))
+      } catch (e) {
+        console.error('failed to updateCache on Demos > Brand view - incoming data was', data, e)
+      }
     }
   },
 
   computed: {
     ...mapGetters([
+      'user',
+      'verticals',
       'loading',
       'working',
-      'provisionStatus',
-      'user'
+      'sessionId',
+      'datacenter',
+      'brandDemoLink',
+      'cumulusDemoLink'
     ]),
-    copy () {
-      // make a copy of the status object
-      let ret = JSON.parse(JSON.stringify(this.provisionStatus))
-      // remove fields we don't want to count
-      delete ret.userId
-      delete ret.status
-      delete ret.cucmLdapSync
-      return ret
+    disableSave () {
+      return false
     },
-    progress () {
-      if (!this.provisionStatus) {
-        return 0.0
+    autocompleteOwners () {
+      const allOwners = this.verticals.map(v => v.owner)
+      const uniqueOwners = Array.from(new Set(allOwners))
+      return uniqueOwners.filter((option) => {
+        return option
+        .toString()
+        .toLowerCase()
+        .indexOf(this.ownerFilter.toLowerCase()) >= 0
+      })
+    },
+    sortedBrands () {
+      // make a mutable copy of the store data
+      try {
+        const copy = JSON.parse(JSON.stringify(this.verticals))
+        // case-insensitive sort by name
+        copy.sort((a, b) => {
+          var nameA = a.name.toUpperCase() // ignore upper and lowercase
+          var nameB = b.name.toUpperCase() // ignore upper and lowercase
+          if (nameA < nameB) {
+            return -1
+          }
+          if (nameA > nameB) {
+            return 1
+          }
+          // names must be equal
+          return 0
+        })
+        return copy
+      } catch (e) {
+        console.log(`couldn't get sorted brands`, e)
       }
-      // determine total number of tasks
-      // count the remaining fields
-      const keys = Object.keys(this.copy)
-      // let count = keys.length
-      // there are 25 tasks for the server to complete
-      let count = 25
-      // keep track of the number of completed tasks
-      let totalDone = 0
-      // iterate over object properties
-      for (const key of keys) {
-        // look for keys that are true
-        if (this.provisionStatus[key] === true) {
-          totalDone++
-        } else if (key === 'uccxUserSync' && this.provisionStatus[key] === 'All agents synced successfully.') {
-          // and also this specific key-value pair
-          totalDone++
-        }
-      }
-      // return percentage done
-      return 100.0 / count * totalDone
+    },
+    systemBrands () {
+      return this.sortedBrands.filter(v => !v.owner || v.owner === 'system' || v.owner === null)
+    },
+    userBrands () {
+      return this.sortedBrands.filter(v => v.owner && v.owner !== 'system' && v.owner !== null)
+    },
+    myBrands () {
+      return this.sortedBrands.filter(v => v.owner === this.user.username)
+    },
+    filteredSortedBrands () {
+      // filter to only show the brands owned by specified user
+      return this.sortedBrands.filter(v => v.owner === this.ownerFilter)
     }
   },
 
+  mounted () {
+    console.log('loading demo config')
+    this.loadDemoConfig(false)
+    console.log('loading verticals')
+    this.loadVerticals(false)
+  },
+
   watch: {
-    provisionStatus (val, oldVal) {
-      // provision status updated
-      // did it go to 'complete'? we should stop the interval...
-      if (val.status === 'complete') {
-        clearInterval(this.interval)
-      }
+    user (val, oldVal) {
+      // user data changed
+      // update our cached data
+      this.updateCache(val)
     }
   }
 }
 </script>
-
-<style lang="scss" scoped>
-</style>
