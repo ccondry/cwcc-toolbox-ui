@@ -69,6 +69,63 @@
         </div>
       </div>
 
+      <!-- Demo Website config -->
+      <div class="tile is-ancestor">
+        <div class="tile is-parent is-vertical">
+          <article class="tile is-child box">
+            <h1 class="title">
+              Demo Website
+            </h1>
+            <div class="content">
+              <div class="select">
+                <select class="input" v-model="vertical" @change="verticalChanged">
+                  <option value="" disabled selected>Choose Your Demo Vertical</option>
+                  <option v-for="brand in systemBrands" :value="brand.id">{{ `${brand.name} (${brand.id})` }}</option>
+                  <option disabled>-----------------------------------------</option>
+                  <option v-for="brand in userBrands" :value="brand.id" v-if="brandFilter === 'all'">{{ `${brand.name} (${brand.id})` }}</option>
+                  <option v-for="brand in myBrands" :value="brand.id" v-if="brandFilter === 'mine'">{{ `${brand.name} (${brand.id})` }}</option>
+                  <option v-for="brand in filteredSortedBrands" :value="brand.id" v-if="brandFilter === 'other'">{{ `${brand.name} (${brand.id})` }}</option>
+                </select>
+              </div>
+              <button class="button is-success" @click="clickGo">Go to Demo Website</button>
+              <b-field>
+                <b-checkbox v-model="showMore">Show More</b-checkbox>
+              </b-field>
+              <b-field v-show="showMore">
+                <div class="field">
+                  <div class="field">
+                    <b-radio v-model="brandFilter"
+                    v-if="user.admin"
+                    native-value="all">Show all verticals</b-radio>
+                  </div>
+                  <div class="field">
+                    <b-radio v-model="brandFilter"
+                    native-value="mine">Show my verticals</b-radio>
+                  </div>
+                  <div class="field">
+                    <b-radio v-model="brandFilter"
+                    native-value="other">
+                    <span style="float: left;">Show this user's verticals:</span>
+                    <b-autocomplete
+                      v-model="ownerFilter"
+                      :data="autocompleteOwners">
+                      <template slot="empty">No results found</template>
+                    </b-autocomplete>
+                  </b-radio>
+                  </div>
+                </div>
+              </b-field>
+                <p>
+                  Note: You can create and configure your own vertical on the
+                <a href="/branding" target="brand-toolbox">
+                  <strong>Demo Branding Toolbox</strong>
+                </a>.
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
+
     </div>
 
   </div>
@@ -85,22 +142,10 @@ export default {
 
   data () {
     return {
-      agents: [
-        {
-          picture: 'https://mm.cxdemo.net/static/images/cumulus/common/author1.png',
-          username: 'sjeffers1234@dcloud.cisco.com',
-          password: 'C1sco12345',
-          extension: '10801234',
-          name: 'Sandra Jefferson'
-        },
-        {
-          picture: 'https://mm.cxdemo.net/static/images/cumulus/common/author3.png',
-          username: 'rbarrows1234@dcloud.cisco.com',
-          password: 'C1sco12345',
-          extension: '10821234',
-          name: 'Rick Barrows'
-        }
-      ]
+      ownerFilter: '',
+      brandFilter: 'mine',
+      vertical: 'finance',
+      showMore: false
     }
   },
 
@@ -113,6 +158,16 @@ export default {
       'getProvisionStatus',
       'provisionUser'
     ]),
+    verticalChanged (e) {
+      console.log('vertical changed', e.target.value)
+      // save vertical
+      // await this.saveDemoConfig({data})
+      // await this.loadDemoConfig(false)
+    },
+    clickGo (e) {
+      console.log('user clicked button to go to demo website')
+      window.open(this.brandDemoLink, 'brand')
+    },
     showDialog (event) {
       // show dialog
       this.$dialog.prompt({
@@ -139,8 +194,58 @@ export default {
     ...mapGetters([
       'user',
       'isProvisioned',
-      'loading'
-    ])
+      'loading',
+      'verticals',
+      'brandDemoLink'
+    ]),
+    disableSave () {
+      return false
+    },
+    autocompleteOwners () {
+      const allOwners = this.verticals.map(v => v.owner)
+      const uniqueOwners = Array.from(new Set(allOwners))
+      return uniqueOwners.filter((option) => {
+        return option
+        .toString()
+        .toLowerCase()
+        .indexOf(this.ownerFilter.toLowerCase()) >= 0
+      })
+    },
+    sortedBrands () {
+      // make a mutable copy of the store data
+      try {
+        const copy = JSON.parse(JSON.stringify(this.verticals))
+        // case-insensitive sort by name
+        copy.sort((a, b) => {
+          var nameA = a.name.toUpperCase() // ignore upper and lowercase
+          var nameB = b.name.toUpperCase() // ignore upper and lowercase
+          if (nameA < nameB) {
+            return -1
+          }
+          if (nameA > nameB) {
+            return 1
+          }
+          // names must be equal
+          return 0
+        })
+        return copy
+      } catch (e) {
+        console.log(`couldn't get sorted brands`, e)
+      }
+    },
+    systemBrands () {
+      return this.sortedBrands.filter(v => !v.owner || v.owner === 'system' || v.owner === null)
+    },
+    userBrands () {
+      return this.sortedBrands.filter(v => v.owner && v.owner !== 'system' && v.owner !== null)
+    },
+    myBrands () {
+      return this.sortedBrands.filter(v => v.owner === this.user.username)
+    },
+    filteredSortedBrands () {
+      // filter to only show the brands owned by specified user
+      return this.sortedBrands.filter(v => v.owner === this.ownerFilter)
+    }
   }
 }
 </script>

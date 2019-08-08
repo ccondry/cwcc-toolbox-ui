@@ -1,8 +1,5 @@
 <template>
   <div>
-    <b-field>
-      <button class="button is-success" @click="clickPortal">Go to Agent Portal</button>
-    </b-field>
     <div class="tile is-ancestor">
       <div class="tile">
         <!-- repeat this tile for each agent -->
@@ -24,6 +21,9 @@
 
       </div>
     </div>
+    <b-field>
+      <button class="button is-success" @click="clickPortal">Go to Agent Portal</button>
+    </b-field>
   </div>
 </template>
 
@@ -31,6 +31,12 @@
 <script>
 export default {
   props: ['user'],
+
+  data () {
+    return {
+      portalUrl: 'https://portal.ccone.net'
+    }
+  },
 
   computed: {
     agents () {

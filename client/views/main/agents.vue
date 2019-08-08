@@ -24,7 +24,6 @@ export default {
 
   data () {
     return {
-      portalUrl: 'https://portal.ccone.net',
       agents: [
         {
           picture: 'https://mm.cxdemo.net/static/images/cumulus/common/author1.png',
