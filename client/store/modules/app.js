@@ -39,11 +39,6 @@ const mutations = {
     for (let name in effectItem) {
       state.effect[name] = effectItem[name]
     }
-  },
-
-  [types.SET_SESSION] (state, data) {
-    state.sessionId = data.sessionId
-    state.datacenter = data.datacenter
   }
 }
 

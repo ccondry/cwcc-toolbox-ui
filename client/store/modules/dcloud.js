@@ -1,3 +1,5 @@
+import * as types from '../mutation-types'
+
 const state = {
   session: null
 }
@@ -29,16 +31,9 @@ const actions = {
         showNotification
       })
     } catch (e) {
-      console.error('error loading brands', e)
-      // notify user
-      Toast.open({
-        duration: 5000,
-        message: `load brands failed`,
-        // position: 'is-bottom',
-        type: 'is-danger'
-      })
+      console.error('error loading dcloud session info', e)
     } finally {
-      dispatch('setLoading', {group: 'app', type: 'brands', value: false})
+      dispatch('setLoading', {group: 'app', type: 'session', value: false})
     }
   }
 }
