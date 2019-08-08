@@ -16,7 +16,6 @@ const store = new Vuex.Store({
   modules,
   state: {
     isProduction: process.env.NODE_ENV === 'production',
-    ldapDomain: config.lab.upnDomain,
     endpointsLoaded: false,
     endpoints: config.app.endpoints,
     pkg,
