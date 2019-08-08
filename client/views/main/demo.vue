@@ -69,6 +69,9 @@
           <p>
             <strong>+1 919-474-5775</strong>
           </p>
+          <pre>
+            {{ dcloudSession }}
+          </pre>
         </div>
       </article>
     </div>
@@ -148,7 +151,8 @@ export default {
       'sessionId',
       'datacenter',
       'brandDemoLink',
-      'cumulusDemoLink'
+      'cumulusDemoLink',
+      'dcloudSession'
     ]),
     disableSave () {
       return false
