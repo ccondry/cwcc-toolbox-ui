@@ -58,7 +58,16 @@ export default {
   },
 
   mounted () {
-    this.authCheck().then(r => this.getProvisionStatus())
+    this.authCheck().then(r => {
+      // auth check done
+      // are they logged in?
+      if (this.authenticated === true) {
+        // get their provision status
+        this.getProvisionStatus()
+        // and get dcloud session info
+        this.getDcloudSession()
+      }
+    })
   },
 
   computed: {
@@ -78,7 +87,7 @@ export default {
       'toggleSidebar',
       'checkLogin',
       'getEndpoints',
-      'getSession',
+      'getDcloudSession',
       'setJwt',
       'getProvisionStatus'
     ]),
