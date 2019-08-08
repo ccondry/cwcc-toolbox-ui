@@ -50,7 +50,7 @@ const mutations = {
 const actions = {
   async getEndpoints ({getters, commit, dispatch}, showNotification = true) {
     // production / development base API URL
-    const url = getters.isProduction ? '/api/v1/cwcc/endpoints' : 'http://localhost:3049/api/v1/cwcc/endpoints'
+    const url = getters.isProduction ? '/api/v1/cwcc/endpoints' : 'http://localhost:3051/api/v1/cwcc/endpoints'
     // mark loading started
     dispatch('setLoading', {group: 'app', type: 'endpoints', value: true})
     try {

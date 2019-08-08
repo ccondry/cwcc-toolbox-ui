@@ -7,7 +7,7 @@ if (process.env.NODE_ENV === 'production') {
   loginEndpoint = '/api/v1/auth/login'
 } else {
   // this is on the cwcc-toolbox-api project
-  endpoint = 'http://localhost:3049/api/v1/cwcc/endpoints'
+  endpoint = 'http://localhost:3051/api/v1/cwcc/endpoints'
   // this is on the toolbox-login-api project
   loginEndpoint = 'http://localhost:3032/api/v1/auth/login'
 }
