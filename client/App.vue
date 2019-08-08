@@ -63,9 +63,9 @@ export default {
       // are they logged in?
       if (this.authenticated === true) {
         // get their provision status
-        this.getProvisionStatus()
+        this.getProvisionStatus(false)
         // and get dcloud session info
-        this.getDcloudSession()
+        this.getDcloudSession(false)
       }
     })
   },
