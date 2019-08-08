@@ -17,7 +17,7 @@
               <option v-for="brand in filteredSortedBrands" :value="brand.id" v-if="brandFilter === 'other'">{{ `${brand.name} (${brand.id})` }}</option>
             </select>
           </div>
-          <button class="button is-success">Go to Demo Website</button>
+          <button class="button is-success" @click="clickGo">Go to Demo Website</button>
           <b-field>
             <b-checkbox v-model="showMore">Show More</b-checkbox>
           </b-field>
@@ -66,12 +66,13 @@
           <p>
             Call this demo number to start the demo:
           </p>
-          <p>
-            <strong>+1 919-474-5775</strong>
-          </p>
-          <pre>
-            {{ dcloudSession }}
-          </pre>
+          <ul>
+            <li>Cumulus City - <strong>{{ getDid('DID5') }}</strong></li>
+            <li>Cumulus Healthcare - <strong>{{ getDid('DID9') }}</strong></li>
+            <li>Cumulus Utility - <strong>{{ getDid('DID10') }}</strong></li>
+            <li>Cumulus Finance - <strong>{{ getDid('DID7') }}</strong></li>
+            <li>Cumulus Travel - <strong>{{ getDid('DID8') }}</strong></li>
+          </ul>
         </div>
       </article>
     </div>
@@ -105,6 +106,10 @@ export default {
       'saveDemoConfig',
       'loadVerticals'
     ]),
+    clickGo (e) {
+      console.log('user clicked button to go to demo website')
+      window.open(this.brandDemoLink, 'brand')
+    },
     verticalChanged (e) {
       console.log('vertical changed', e.target.value)
       // save vertical
@@ -138,6 +143,13 @@ export default {
         this.model = JSON.parse(JSON.stringify(data))
       } catch (e) {
         console.error('failed to updateCache on Demos > Brand view - incoming data was', data, e)
+      }
+    },
+    getDid (name) {
+      try {
+        return this.dcloudSession.dids.find(v => v.name === name).number
+      } catch (e) {
+        return ''
       }
     }
   },
@@ -205,8 +217,8 @@ export default {
   },
 
   mounted () {
-    console.log('loading demo config')
-    this.loadDemoConfig(false)
+    // console.log('loading demo config')
+    // this.loadDemoConfig(false)
     console.log('loading verticals')
     this.loadVerticals(false)
   },
