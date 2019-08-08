@@ -12,6 +12,8 @@ const mutations = {
 
 const getters = {
   dcloudSession: state => state.session,
+  sessionId: (state, getters) => getters.dcloudSession.id,
+  datacenter: (state, getters) => getters.dcloudSession.datacenter,
   brandDemoLink (state, getters) {
     return `https://mm-brand.cxdemo.net?session=${getters.sessionId}&datacenter=${getters.datacenter}&userId=${getters.user.id}`
   },
