@@ -10,9 +10,3 @@ export const loading = state => state.loading
 export const working = state => state.working
 export const endpoints = state => state.endpoints
 export const endpointsLoaded = state => state.endpointsLoaded
-export const sessionId = state => state.app.sessionId
-export const datacenter = state => state.app.datacenter
-// export const instance = state => state.instance
-// export const instances = state => state.instances
-// export const instancesLoaded = state => state.instancesLoaded
-export const ldapDomain = state => state.ldapDomain
