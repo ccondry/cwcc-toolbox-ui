@@ -87,9 +87,10 @@
                   <option v-for="brand in filteredSortedBrands" :value="brand.id" v-if="brandFilter === 'other'">{{ `${brand.name} (${brand.id})` }}</option>
                 </select>
               </div>
+              &nbsp;
               <button class="button is-success" @click="clickGo">Go to Demo Website</button>
               &nbsp;
-              <span style="font-size: 1.3em;">Or call {{ demoNumber }}</span>
+              <span style="font-size: 1.3em;">Or for quick access, call {{ demoNumber }}</span>
               <b-field>
                 <b-checkbox v-model="showMore">Show More</b-checkbox>
               </b-field>
