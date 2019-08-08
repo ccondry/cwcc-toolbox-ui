@@ -88,6 +88,8 @@
                 </select>
               </div>
               <button class="button is-success" @click="clickGo">Go to Demo Website</button>
+              &nbsp;
+              <span style="font-size: 1.3em;">Or call {{ demoNumber }}</span>
               <b-field>
                 <b-checkbox v-model="showMore">Show More</b-checkbox>
               </b-field>
@@ -187,6 +189,13 @@ export default {
     clickProvision () {
       console.log('user clicked Provision Me button')
       this.provisionUser()
+    },
+    getDid (name) {
+      try {
+        return this.dcloudSession.dids.find(v => v.name === name).number
+      } catch (e) {
+        return ''
+      }
     }
   },
 
@@ -196,8 +205,19 @@ export default {
       'isProvisioned',
       'loading',
       'verticals',
-      'brandDemoLink'
+      'brandDemoLink',
+      'dcloudSession'
     ]),
+    demoNumber () {
+      switch (this.vertical) {
+        case 'city': return this.getDid('DID5')
+        case 'healthcare': return this.getDid('DID9')
+        case 'utility': return this.getDid('DID10')
+        case 'finance': return this.getDid('DID7')
+        case 'travel': return this.getDid('DID8')
+        default: return this.getDid('DID7')
+      }
+    },
     disableSave () {
       return false
     },
