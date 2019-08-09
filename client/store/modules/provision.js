@@ -45,8 +45,9 @@ const actions = {
         // send provision request to API
         await post(getters.instance, getters.jwt, endpoint)
         if (showNotification) {
-          dispatch('successNotification', 'Successfully started provisioning process.')
+          dispatch('successNotification', 'Successfully provisioning your account.')
         }
+        dispatch('getProvisionStatus', false)
       } catch (e) {
         console.log('error during provision script', e)
         dispatch('errorNotification', {title: 'provision failed', error: e})
