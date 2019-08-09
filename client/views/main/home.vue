@@ -205,6 +205,7 @@ export default {
       'user',
       'isProvisioned',
       'loading',
+      'working',
       'verticals',
       'brandDemoLink',
       'dcloudSession'
