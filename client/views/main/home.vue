@@ -133,7 +133,7 @@
         <!-- user not provisioned - show provision button -->
         <div class="tile is-parent is-12">
           <article class="tile is-child box">
-            <h1 class="title">Start</h1>
+            <h1 class="title">Reprovision</h1>
             <b-field>
               <p>
                 Your account is already provisioned for this demo, but you can
