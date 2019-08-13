@@ -9,12 +9,15 @@
             <p class="title">{{ agent.name }}</p>
             <p class="subtitle">{{ agent.role }}</p>
             <img :src="agent.picture" width="128px">
-            <br />
-            Username: <strong>{{ agent.username }}</strong>
-            <br />
-            Password: <strong>{{ agent.password }}</strong>
-            <br />
-            Extension: <strong>{{ agent.extension }}</strong>
+            <b-field label="Username">
+              <b-input :value="agent.username"></b-input>
+            </b-field>
+            <b-field label="Password">
+              <b-input v-bind:value="agent.password" ></b-input>
+            </b-field>
+            <b-field label="Extension">
+              <b-input :value="agent.extension"></b-input>
+            </b-field>
 
           </article>
         </div>
