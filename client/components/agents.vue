@@ -24,9 +24,11 @@
 
       </div>
     </div>
-    <b-field position="is-centered">
+    <center>
+    <b-field>
       <button class="button is-success" @click="clickPortal">Go to CWCC Portal</button>
     </b-field>
+  </center>
   </div>
 </template>
 
