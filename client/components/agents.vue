@@ -66,7 +66,7 @@ export default {
           password: 'C1sco12345',
           extension: '1082' + this.user.id,
           name: 'Rick Barrows',
-          role: 'Administrator/Agent'
+          role: 'Administrator / Agent'
         }
       ]
     }
