@@ -9,16 +9,18 @@
             <p class="title">{{ agent.name }}</p>
             <p class="subtitle">{{ agent.role }}</p>
             <img :src="agent.picture" width="128px">
-            <b-field label="Username">
-              <b-input :value="agent.username"></b-input>
-            </b-field>
-            <b-field label="Password">
-              <b-input v-bind:value="agent.password" ></b-input>
-            </b-field>
-            <b-field label="Extension">
-              <b-input :value="agent.extension"></b-input>
-            </b-field>
-
+            <p>
+              <strong>Username: {{ agent.username }}</strong>
+              <a @click="clickCopy1(agent.username)"><b-icon icon="layers"></b-icon></a>
+            </p>
+            <p>
+              <strong>Password: {{ agent.password }}</strong>
+              <a @click="clickCopy2(agent.password)"><b-icon icon="layers"></b-icon></a>
+            </p>
+            <p>
+              <strong>Extension: {{ agent.extension }}</strong>
+              <a @click="clickCopy1(agent.extension)"><b-icon icon="layers"></b-icon></a>
+            </p>
           </article>
         </div>
 
@@ -70,6 +72,34 @@ export default {
     clickPortal (e) {
       // open agent portal in new tab, or same tab if they have it open already
       window.open(this.portalUrl, 'ccone')
+    },
+    clickCopy2 (s) {
+      window.Clipboard.writeText(s)
+      .then(() => {
+        console.log('Text is on the clipboard:', s)
+        // this.message = 'Code copied to clipboard.'
+      })
+      .catch(e => {
+        console.error(e)
+        // this.message = 'Sorry, unable to copy to clipboard.'
+      })
+      // console.log('Text is on the clipboard.')
+    },
+    clickCopy1 (s) {
+      // console.log('copying text to clipboard:', s)
+      // return function (s) {
+      // document.execCommand("copy");
+      // window.Clipboard.writeText(s)
+      // }
+      navigator.clipboard.writeText(s)
+      .then(() => {
+        console.log('Text is on the clipboard:', s)
+        // this.message = 'Code copied to clipboard.'
+      })
+      .catch(e => {
+        console.error(e)
+        // this.message = 'Sorry, unable to copy to clipboard.'
+      })
     }
   }
 }
