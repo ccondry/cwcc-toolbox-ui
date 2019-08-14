@@ -11,15 +11,15 @@
             <img :src="agent.picture" width="128px">
             <p>
               <strong>Username: {{ agent.username }}</strong>
-              <a @click="clickCopy1(agent.username)"><b-icon icon="layers"></b-icon></a>
+              <a @click="clickCopy(agent.username, 'Username')"><b-icon icon="layers"></b-icon></a>
             </p>
             <p>
               <strong>Password: {{ agent.password }}</strong>
-              <a @click="clickCopy2(agent.password)"><b-icon icon="layers"></b-icon></a>
+              <a @click="clickCopy(agent.password, 'Password')"><b-icon icon="layers"></b-icon></a>
             </p>
             <p>
               <strong>Extension: {{ agent.extension }}</strong>
-              <a @click="clickCopy1(agent.extension)"><b-icon icon="layers"></b-icon></a>
+              <a @click="clickCopy(agent.extension, 'Extension')"><b-icon icon="layers"></b-icon></a>
             </p>
           </article>
         </div>
@@ -27,10 +27,13 @@
       </div>
     </div>
     <center>
-    <b-field>
-      <button class="button is-success" @click="clickPortal">Go to CWCC Portal</button>
-    </b-field>
-  </center>
+      <b-field>
+        <button class="button is-success" @click="clickPortal">Go to CWCC Portal</button>
+      </b-field>
+    </center>
+
+    <input type="hidden" id="clipboard" :value="clipboard">
+
   </div>
 </template>
 
@@ -41,7 +44,8 @@ export default {
 
   data () {
     return {
-      portalUrl: 'https://portal.ccone.net'
+      portalUrl: 'https://portal.ccone.net',
+      clipboard: 'initial-value'
     }
   },
 
@@ -73,33 +77,30 @@ export default {
       // open agent portal in new tab, or same tab if they have it open already
       window.open(this.portalUrl, 'ccone')
     },
-    clickCopy2 (s) {
-      window.Clipboard.writeText(s)
-      .then(() => {
-        console.log('Text is on the clipboard:', s)
-        // this.message = 'Code copied to clipboard.'
-      })
-      .catch(e => {
-        console.error(e)
-        // this.message = 'Sorry, unable to copy to clipboard.'
-      })
-      // console.log('Text is on the clipboard.')
-    },
-    clickCopy1 (s) {
-      // console.log('copying text to clipboard:', s)
-      // return function (s) {
-      // document.execCommand("copy");
-      // window.Clipboard.writeText(s)
-      // }
-      navigator.clipboard.writeText(s)
-      .then(() => {
-        console.log('Text is on the clipboard:', s)
-        // this.message = 'Code copied to clipboard.'
-      })
-      .catch(e => {
-        console.error(e)
-        // this.message = 'Sorry, unable to copy to clipboard.'
-      })
+    clickCopy (s, type) {
+      // copy text to clipboard
+      const input = document.createElement('input')
+      document.body.appendChild(input)
+      input.value = s
+      input.focus()
+      input.select()
+      const result = document.execCommand('copy')
+      if (result === 'unsuccessful') {
+        // failed
+        console.error('Failed to copy text.')
+      } else {
+        // success
+        // this.$snackbar.open({
+        //   message: 'Text Copied',
+        //   type: 'is-success',
+        //   position: 'is-top'
+        // })
+        this.$toast.open({
+          message: type + ' Copied to Your Clipboard',
+          queue: false
+        })
+      }
+      input.remove()
     }
   }
 }
