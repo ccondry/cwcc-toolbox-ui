@@ -25,7 +25,7 @@
       </div>
     </div>
     <b-field>
-      <button class="button is-success" @click="clickPortal">Go to Agent Portal</button>
+      <button class="button is-success" @click="clickPortal">Go to CWCC Portal</button>
     </b-field>
   </div>
 </template>
