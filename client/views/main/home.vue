@@ -295,10 +295,13 @@ export default {
     filteredSortedBrands () {
       // filter to only show the brands owned by specified user
       return this.sortedBrands.filter(v => v.owner === this.ownerFilter)
-    },
-    demoConfig () {
+    }
+  },
+
+  watch: {
+    demoConfig (val) {
       // copy vertical config to cache
-      this.vertical = demoConfig.vertical
+      this.vertical = val.vertical
     }
   }
 }
