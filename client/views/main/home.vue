@@ -180,7 +180,8 @@ export default {
     ...mapActions([
       'inviteToSupportRoom',
       'getProvisionStatus',
-      'provisionUser'
+      'provisionUser',
+      'saveDemoConfig'
     ]),
     verticalChanged (e) {
       console.log('vertical changed', e.target.value)
