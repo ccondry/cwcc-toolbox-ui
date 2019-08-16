@@ -185,7 +185,12 @@ export default {
     verticalChanged (e) {
       console.log('vertical changed', e.target.value)
       // save vertical
-      // await this.saveDemoConfig({data})
+      await this.saveDemoConfig({
+        data: {
+          vertical: e.target.value
+        },
+        showNotification: false
+      })
       // await this.loadDemoConfig(false)
     },
     clickGo (e) {
