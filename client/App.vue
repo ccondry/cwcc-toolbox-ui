@@ -68,6 +68,8 @@ export default {
         this.getDcloudSession(false)
         // and get verticals list
         this.loadVerticals(false)
+        // and get user demo config
+        this.loadDemoConfig(false)
       }
     })
   },
@@ -92,7 +94,8 @@ export default {
       'getDcloudSession',
       'setJwt',
       'getProvisionStatus',
-      'loadVerticals'
+      'loadVerticals',
+      'loadDemoConfig'
     ]),
     async authCheck () {
       try {
