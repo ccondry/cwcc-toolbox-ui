@@ -235,7 +235,8 @@ export default {
       'working',
       'verticals',
       'brandDemoLink',
-      'dcloudSession'
+      'dcloudSession',
+      'demoConfig'
     ]),
     demoNumber () {
       switch (this.vertical) {
@@ -294,6 +295,10 @@ export default {
     filteredSortedBrands () {
       // filter to only show the brands owned by specified user
       return this.sortedBrands.filter(v => v.owner === this.ownerFilter)
+    },
+    demoConfig () {
+      // copy vertical config to cache
+      this.vertical = demoConfig.vertical
     }
   }
 }
