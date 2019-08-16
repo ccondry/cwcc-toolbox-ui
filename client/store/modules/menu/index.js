@@ -1,17 +1,9 @@
 import * as types from '../../mutation-types'
 import main from './main.js'
-// import finesse from './finesse.js'
-import admin from './admin.js'
-// import demoSelectors from './demo-selectors.js'
-// import demos from './demos.js'
 
 const state = {
   items: [
-    main,
-    // demoSelectors,
-    // demos,
-    // finesse,
-    admin
+    main
   ]
 }
 

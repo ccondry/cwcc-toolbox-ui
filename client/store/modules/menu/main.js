@@ -19,23 +19,5 @@ export default {
       },
       component: lazyLoading('main/home')
     }
-    // {
-    //   name: 'Agents',
-    //   path: path + '/agents',
-    //   meta: {
-    //     icon: 'account-multiple',
-    //     description: 'Agent Desktop'
-    //   },
-    //   component: lazyLoading('main/agents')
-    // },
-    // {
-    //   name: 'Demo',
-    //   path: path + '/demo',
-    //   meta: {
-    //     icon: 'view-quilt',
-    //     description: 'Demo Website'
-    //   },
-    //   component: lazyLoading('main/demo')
-    // }
   ]
 }
