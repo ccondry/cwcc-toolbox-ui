@@ -1,5 +1,5 @@
 # dCloud CWCC Toolbox UI
-This is the website UI code for the dCloud CWCC Toolbox.
+This is the website UI code for the dCloud Cisco Webex Contact Center Toolbox.
 
 ## Installation
 ```sh
