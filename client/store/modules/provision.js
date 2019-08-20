@@ -1,6 +1,6 @@
 import * as types from '../mutation-types'
 import { post, load } from '../../utils'
-import { Dialog } from 'buefy'
+import { DialogProgrammatic as Dialog } from 'buefy'
 
 const state = {
   status: null
