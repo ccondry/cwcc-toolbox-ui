@@ -1,5 +1,6 @@
 import * as types from '../mutation-types'
 import { post, load } from '../../utils'
+import { Dialog } from 'buefy'
 
 const state = {
   status: null
@@ -45,7 +46,16 @@ const actions = {
         // send provision request to API
         await post(getters.instance, getters.jwt, endpoint)
         if (showNotification) {
-          dispatch('successNotification', 'Successfully provisioning your account.')
+          // dispatch('successNotification', 'Successfully provisioning your account.')
+          Dialog.prompt({
+            title: 'Provision Successful',
+            message: `Your Cisco Webex Contact Center account is now
+            provisioned, however your routing script is not enabled yet. To
+            enable your agent to receive calls, you can either wait for
+            midnight EST or contact support using the Webex Teams support room.`,
+            type: 'is-success',
+            confirmText: 'I Understand'
+          })
         }
         dispatch('getProvisionStatus', false)
       } catch (e) {
