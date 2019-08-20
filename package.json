@@ -35,7 +35,7 @@
     "animejs": "^2.0.1",
     "awesome-phonenumber": "^2.1.1",
     "axios": "^0.15.3",
-    "buefy": "^0.7.3",
+    "buefy": "^0.8.2",
     "bulma": "^0.3.2",
     "fast-xml-parser": "git+https://github.com/NaturalIntelligence/fast-xml-parser.git",
     "font-awesome": "4.7.0",
