@@ -50,9 +50,10 @@ const actions = {
           Dialog.alert({
             title: 'Provision Successful',
             message: `Your Cisco Webex Contact Center account is now
-            provisioned, however your routing script is not enabled yet. To
-            enable your agent to receive calls, you can either wait for
-            midnight EST or contact support using the Webex Teams support room.`,
+            provisioned, however your routing script is not enabled yet. <br>To
+            enable your agent to receive calls, you can either wait for the automatic
+            process to do this at midnight EST tonight, or contact support using the
+            Webex Teams support room.`,
             type: 'is-success',
             confirmText: 'I Understand'
           })
