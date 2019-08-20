@@ -47,7 +47,7 @@ const actions = {
         await post(getters.instance, getters.jwt, endpoint)
         if (showNotification) {
           // dispatch('successNotification', 'Successfully provisioning your account.')
-          Dialog.prompt({
+          Dialog.alert({
             title: 'Provision Successful',
             message: `Your Cisco Webex Contact Center account is now
             provisioned, however your routing script is not enabled yet. To
