@@ -308,8 +308,8 @@ export default {
         return v.id === val
       })
       // is this selected vertical owned by someone else?
-      if (selectedVertical && selectedVertical.owner !== 'system'
-      && selectedVertical.owner !== this.user.username) {
+      if (selectedVertical && selectedVertical.owner !== 'system' &&
+      selectedVertical.owner !== this.user.username) {
         // selected vertical owned by a user that is not this user
         this.brandFilter = 'other'
         this.ownerFilter = selectedVertical.owner
