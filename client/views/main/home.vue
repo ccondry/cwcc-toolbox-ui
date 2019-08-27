@@ -302,6 +302,8 @@ export default {
     demoConfig (val) {
       // copy vertical selection to the one in demo config
       this.vertical = val.vertical
+    },
+    vertical (val) {
       // make sure the vertical is able to be displayed in the drop-down
       if (this.systemBrands.find(v => v.id === this.vertical)) {
         // selected vertical is in system verticals
