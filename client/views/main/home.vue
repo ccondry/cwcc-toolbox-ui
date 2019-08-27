@@ -304,18 +304,13 @@ export default {
       this.vertical = val.vertical
     },
     vertical (val) {
-      // make sure the vertical is able to be displayed in the drop-down
-      if (this.systemBrands.find(v => v.id === this.vertical)) {
-        // selected vertical is in system verticals
-        // this.brandFilter = 'mine'
-      } else if (this.myBrands.find(v => v.id === this.vertical)) {
-        // selected vertical is one owned by this user
-        this.brandFilter = 'mine'
-      } else {
-        // selected vertical is owned by another user
-        const selectedVertical = this.filteredSortedBrands.find(v => {
-          return v.id === this.vertical
-        })
+      const selectedVertical = this.sortedBrands.find(v => {
+        return v.id === val
+      })
+      // is this selected vertical owned by someone else?
+      if (selectedVertical && selectedVertical.owner !== 'system'
+      && selectedVertical.owner !== this.user.username) {
+        // selected vertical owned by a user that is not this user
         this.brandFilter = 'other'
         this.ownerFilter = selectedVertical.owner
       }
