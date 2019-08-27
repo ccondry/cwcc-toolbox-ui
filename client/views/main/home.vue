@@ -303,15 +303,15 @@ export default {
       // copy vertical selection to the one in demo config
       this.vertical = val.vertical
       // make sure the vertical is able to be displayed in the drop-down
-      if (systemBrands.find(v => v.id === this.vertical)) {
+      if (this.systemBrands.find(v => v.id === this.vertical)) {
         // selected vertical is in system verticals
         // this.brandFilter = 'mine'
-      } else if (myBrands.find(v => v.id === this.vertical)) {
+      } else if (this.myBrands.find(v => v.id === this.vertical)) {
         // selected vertical is one owned by this user
         this.brandFilter = 'mine'
       } else {
         // selected vertical is owned by another user
-        const selectedVertical = filteredSortedBrands.find(v => {
+        const selectedVertical = this.filteredSortedBrands.find(v => {
           return v.id === this.vertical
         })
         this.brandFilter = 'other'
