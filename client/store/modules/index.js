@@ -7,7 +7,7 @@ import templates from './templates'
 import provision from './provision'
 import cumulus from './cumulus'
 import usage from './usage'
-import users from './users'
+import admin from './admin'
 import webex from './webex'
 import dcloud from './dcloud'
 
@@ -21,7 +21,7 @@ export default {
   provision,
   cumulus,
   usage,
-  users,
+  admin,
   webex,
   dcloud
 }

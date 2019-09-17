@@ -20,12 +20,12 @@ const store = new Vuex.Store({
     endpoints: config.app.endpoints,
     pkg,
     working: {
+      admin: {},
       app: {},
       images: {},
       cce: {},
       cvp: {},
       duo: {},
-      admin: {},
       facebook: {},
       finesse: {},
       templates: {},
@@ -34,12 +34,12 @@ const store = new Vuex.Store({
       upstream: {}
     },
     loading: {
+      admin: {},
       app: {},
       images: {},
       cce: {},
       cvp: {},
       duo: {},
-      admin: {},
       facebook: {},
       finesse: {},
       templates: {},

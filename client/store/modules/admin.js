@@ -26,7 +26,7 @@ const actions = {
     try {
       await dispatch('loadToState', {
         name: 'users',
-        endpoint: getters.endpoints.admin.user,
+        endpoint: getters.endpoints.admin.users,
         mutation: types.SET_USERS,
         showNotification
       })
@@ -42,7 +42,7 @@ const actions = {
     try {
       await dispatch('loadToState', {
         name: 'user provision map',
-        endpoint: getters.endpoints.userProvisionMap,
+        endpoint: getters.endpoints.admin.userProvisionMap,
         mutation: types.SET_USER_PROVISION_MAP,
         showNotification
       })
@@ -57,7 +57,7 @@ const actions = {
     const type = 'su'
     try {
       dispatch('setWorking', {group: 'admin', type: 'su', value: true})
-      const endpoint = getters.endpoints.su
+      const endpoint = getters.endpoints.admin.su
       const response = await post(getters.instance, getters.jwt, endpoint, null, {username: user.username})
       // store auth token in localStorage
       dispatch('setJwt', response.data.jwt)
@@ -72,6 +72,24 @@ const actions = {
       dispatch('errorNotification', {title: `Failed to log in as ${user.username}`, error: e})
     } finally {
       dispatch('setWorking', {group: 'admin', type: 'su', value: false})
+    }
+  },
+  async updateUser ({getters, commit, dispatch}, {showNotification = true, user, body}) {
+    const type = 'updateUser'
+    try {
+      dispatch('setWorking', {group: 'admin', type, value: true})
+      const endpoint = getters.endpoints.admin.user + '/' + user.id
+      // updating only the cwcc demo portion of user data from here
+      await post(getters.instance, getters.jwt, endpoint, {demo: 'cwcc'}, body)
+      // reload new user data using JWT
+      if (showNotification) {
+        dispatch('successNotification', `Successfully updated user ${user.username}`)
+      }
+    } catch (e) {
+      console.log(`error posting ${type}`, e)
+      dispatch('errorNotification', {title: `Failed to update user ${user.username}`, error: e})
+    } finally {
+      dispatch('setWorking', {group: 'admin', type, value: false})
     }
   }
 }

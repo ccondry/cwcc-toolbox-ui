@@ -43,7 +43,10 @@
               </div>
             </nav>
           </h1>
-          <div class="table-responsive">
+          <div v-if="loading.admin.users">
+            Loading...
+          </div>
+          <div v-else class="table-responsive">
             <table class="table is-bordered is-striped is-narrow">
               <thead>
                 <tr>
@@ -53,8 +56,9 @@
                   <th>Email</th>
                   <th>Administrator</th>
                   <th>Provisioned For</th>
-                  <th>Last Login</th>
-                  <th>Last Failed Login</th>
+                  <!-- <th>Last Login</th> -->
+                  <!-- <th>Last Failed Login</th> -->
+                  <th>Demo Configuration</th>
                   <th>Actions</th>
                   <!-- <th class="is-hidden-mobile">Internal DNIS</th> -->
                 </tr>
@@ -83,8 +87,22 @@
                       </li>
                     </ul></user-row>
                   </td>
-                  <td>{{ user.lastLogin | moment("from") }}</td>
-                  <td>{{ user.lastFailedLogin  | moment("from") }}</td>
+                  <!-- <td>{{ user.lastLogin | moment("from") }}</td> -->
+                  <!-- <td>{{ user.lastFailedLogin  | moment("from") }}</td> -->
+                  <td>
+                    <span v-if="user.demo && user.demo.cwcc">
+                      <input v-model="user.demo.cwcc.vertical" />
+                      <input v-model="user.demo.cwcc.tenantId" />
+                      <input v-model="user.demo.cwcc.reasonId" />
+                      <button class="button is-success" @click.prevent="clickUpdateConfig(user)">
+                        Save CWCC Demo Config
+                      </button>
+                    </span>
+                    <span v-else>
+                      Not Configured
+                      <button class="button is-primary" @click.prevent="clickConfigure(user)">Configure</button>
+                    </span>
+                  </td>
                   <td><button type="button" class="button is-primary" @click.prevent="clickSu(user)">Switch User</button></td>
                 </tr>
               </tbody>
@@ -121,8 +139,8 @@ const UserRow = Vue.component('UserRow', {
 export default {
   data () {
     return {
-      loading: false,
-      filter: ''
+      filter: '',
+      model: []
     }
   },
   components: {
@@ -138,7 +156,8 @@ export default {
     ...mapActions([
       'loadUsers',
       'su',
-      'loadUserProvisionMap'
+      'loadUserProvisionMap',
+      'updateUser'
     ]),
     refresh (showNotification) {
       this.loadUsers(showNotification)
@@ -149,6 +168,33 @@ export default {
         showNotification: true,
         user
       })
+    },
+    clickUpdateConfig (user) {
+      console.log('clickUpdateConfig - updating user', user)
+      // update target user with their new cwcc data in the form
+      this.updateUser({
+        user,
+        body: user.demo.cwcc
+      })
+    },
+    clickConfigure (user) {
+      console.log('clickConfigure', user)
+      if (!user.demo) {
+        Vue.set(user, 'demo', {})
+      }
+      if (!user.demo.cwcc) {
+        Vue.set(user.demo, 'cwcc', {})
+      }
+      if (!user.demo.cwcc.vertical) {
+        Vue.set(user.demo.cwcc, 'vertical', '')
+      }
+      if (!user.demo.cwcc.tenantId) {
+        Vue.set(user.demo.cwcc, 'tenantId', '')
+      }
+      if (!user.demo.cwcc.reasonId) {
+        Vue.set(user.demo.cwcc, 'reasonId', '')
+      }
+      console.log('user is now configured for cwcc:', user)
     }
   },
   computed: {
@@ -156,14 +202,21 @@ export default {
       'users',
       'userProvisionMap',
       'instance',
-      'currentInstance'
+      'currentInstance',
+      'loading'
     ]),
     sortedUsers () {
-      return this.users
+      return this.model
     },
     sortedFilteredUsers () {
       // filter data using the search box
       return this.sortedUsers.filter(contains(this.filter))
+    }
+  },
+  watch: {
+    users (val, oldVal) {
+      // copy users to cache
+      this.model = JSON.parse(JSON.stringify(this.users))
     }
   }
 }

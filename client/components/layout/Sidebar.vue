@@ -11,6 +11,29 @@
 <ul class="menu-list">
   <!-- for each menu item - but only show admins the Admin menu -->
   <li v-for="(item, index) in filteredMenu" v-if="item.children.length && (item.name !== 'Admin' || user.admin)">
+    <router-link :to="item.path" :exact="true" :aria-expanded="isExpanded(item) ? 'true' : 'false'" v-if="item.path" @click.native="toggle(index, item)">
+      <!-- <span class="icon is-small"><i :class="['fa', item.meta.icon]"></i></span> -->
+      <!-- icon -->
+      <b-icon :icon="item.meta.icon"></b-icon>
+      <!-- label -->
+      {{ item.meta.label || item.name }}
+      <!-- down arrow -->
+      <b-icon v-if="item.children && item.children.length" :icon="isExpanded(item) ? 'chevron-up' : 'chevron-down'" ></b-icon>
+    </router-link>
+    <a :aria-expanded="isExpanded(item)" v-else @click="toggle(index, item)">
+      <!-- <span class="icon is-small"><i :class="isExpanded(item) && item.meta.iconExpanded ? ['fa', item.meta.iconExpanded] : ['fa', item.meta.icon]"></i></span> -->
+      <!-- expanded folder icon, or else the defined icon -->
+      <b-icon :icon="isExpanded(item) && item.meta.iconExpanded ? item.meta.iconExpanded : item.meta.icon" ></b-icon>
+      <!-- label -->
+      {{ item.meta.label || item.name }}
+      <!-- down arrow -->
+      <b-icon v-if="item.children && item.children.length" :icon="isExpanded(item) ? 'chevron-up' : 'chevron-down'" ></b-icon>
+      <!-- 'new' tag -->
+      <b-tag v-if="isNew(item)" type="is-info">New</b-tag>
+      <!-- 'updated' tag -->
+      <b-tag v-if="isUpdated(item)" type="is-primary">Updated</b-tag>
+    </a>
+
     <span v-if="item.children && item.children.length">
       <ul v-show="isExpanded(item)">
         <li v-for="subItem in item.children" v-if="subItem.path">
