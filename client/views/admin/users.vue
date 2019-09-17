@@ -58,7 +58,7 @@
                   <th>Provisioned For</th>
                   <!-- <th>Last Login</th> -->
                   <!-- <th>Last Failed Login</th> -->
-                  <th>Demo Configuration</th>
+                  <th>CWCC Demo Configuration</th>
                   <th>Actions</th>
                   <!-- <th class="is-hidden-mobile">Internal DNIS</th> -->
                 </tr>
