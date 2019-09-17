@@ -123,7 +123,7 @@ export default {
       }
     },
     clickLogin () {
-      this.$dialog.prompt({
+      this.$buefy.dialog.prompt({
         message: `Enter your JWT to log in`,
         inputAttrs: {
           placeholder: 'JWT'

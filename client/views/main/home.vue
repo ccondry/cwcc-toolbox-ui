@@ -200,7 +200,7 @@ export default {
     },
     showDialog (event) {
       // show dialog
-      this.$dialog.prompt({
+      this.$buefy.dialog.prompt({
         title: 'Join the Webex Teams support room',
         message: `What is your Webex Teams email address?`,
         type: 'is-success',

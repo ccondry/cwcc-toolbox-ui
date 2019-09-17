@@ -88,7 +88,7 @@ export default {
       this.logout()
     },
     clickLogin () {
-      this.$dialog.prompt({
+      this.$buefy.dialog.prompt({
         message: `Enter your JWT`,
         inputAttrs: {
           placeholder: 'JWT'
