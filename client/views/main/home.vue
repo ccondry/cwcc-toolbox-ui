@@ -78,7 +78,7 @@
             </h1>
             <div class="content">
               <div class="select">
-                <select class="input" v-model="vertical" @change="verticalChanged">
+                <select class="input" v-model="vertical" @change="verticalChanged" :disabled="working.app.user">
                   <option value="" disabled selected>Choose Your Demo Vertical</option>
                   <option v-for="brand in systemBrands" :value="brand.id">{{ `${brand.name} (${brand.id})` }}</option>
                   <option disabled>-----------------------------------------</option>
@@ -88,9 +88,9 @@
                 </select>
               </div>
               &nbsp;
-              <button class="button is-success" @click="clickGo">Go to Demo Website</button>
+              <button class="button is-success" @click="clickGo" :disabled="working.app.user">Go to Demo Website</button>
               &nbsp;
-              <span style="font-size: 1.3em;">Or for quick access, call {{ demoNumber }}</span>
+              <span style="font-size: 1.3em;">Or for quick access, call {{ working.app.user ? 'Loading...' : demoNumber }}</span>
               <b-field>
                 <b-checkbox v-model="showMore">Show More</b-checkbox>
               </b-field>
