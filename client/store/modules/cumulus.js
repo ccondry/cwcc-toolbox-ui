@@ -94,25 +94,21 @@ const actions = {
     }
   },
   async saveDemoConfig ({getters, commit, dispatch}, {data, showNotification = true}) {
-    dispatch('setWorking', {group: 'session', type: 'config', value: true})
     try {
+      dispatch('setWorking', {group: 'app', type: 'user', value: true})
       await dispatch('postData', {
-        name: 'save demo session configuration',
-        endpoint: getters.endpoints.cumulus,
+        name: 'save demo configuration',
+        endpoint: getters.endpoints.userDemo + '?id=' + getters.demoConfigId,
+        success: 'Demo configuration saved.',
+        fail: 'Failed to save your demo configuration',
         data,
         showNotification
       })
     } catch (e) {
-      console.log('error saving demo session config', e)
-      // dispatch('errorNotification', {title: 'Failed to save demo session configuration', error: e})
-      Toast.open({
-        duration: 5000,
-        message: `save demo session configuration failed`,
-        // position: 'is-bottom',
-        type: 'is-danger'
-      })
+      console.error('error loading defaults', e)
+      dispatch('errorNotification', {title: 'Failed to load user details', error: e})
     } finally {
-      dispatch('setWorking', {group: 'session', type: 'config', value: false})
+      dispatch('setWorking', {group: 'app', type: 'user', value: false})
     }
   }
 }
