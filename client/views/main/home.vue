@@ -214,13 +214,13 @@ export default {
         }
       })
     },
-    clickProvision () {
+    async clickProvision () {
       console.log('user clicked Provision Me button')
-      this.provisionUser()
-      .then(r => {
+      try {
+        await this.provisionUser()
         // after provision starts, notify the user they need to request
         // manual chat provisioning
-        this.$buefy.dialog.prompt({
+        this.$buefy.dialog.alert({
           title: 'Contact Support for Chat Provisioning',
           message: `Please send a message to the Webex Teams support room
           to request chat provisioning. You will not be able to use chat
@@ -228,7 +228,9 @@ export default {
           type: 'is-default',
           confirmText: 'Ok'
         })
-      })
+      } catch (e) {
+        throw e
+      }
     },
     getDid (name) {
       try {
