@@ -55,7 +55,7 @@
                   <th>User ID</th>
                   <th>Email</th>
                   <th>Administrator</th>
-                  <th>Provisioned For</th>
+                  <!-- <th>Provisioned For</th> -->
                   <!-- <th>Last Login</th> -->
                   <!-- <th>Last Failed Login</th> -->
                   <th>CWCC Demo Configuration</th>
@@ -71,7 +71,7 @@
                   <td>{{ user.id }}</td>
                   <td>{{ user.email }}</td>
                   <td>{{ user.admin ? 'Administrator' : '' }}</td>
-                  <td>
+                  <!-- <td>
                     <user-row inline-template
                     :user="user"
                     :instance="instance"
@@ -86,7 +86,7 @@
                         </span>
                       </li>
                     </ul></user-row>
-                  </td>
+                  </td> -->
                   <!-- <td>{{ user.lastLogin | moment("from") }}</td> -->
                   <!-- <td>{{ user.lastFailedLogin  | moment("from") }}</td> -->
                   <td>
