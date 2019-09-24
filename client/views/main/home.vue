@@ -227,6 +227,7 @@ export default {
           in the demo until provisioning is completed by the support team.`,
           type: 'is-default',
           confirmText: 'Ok'
+        })
       })
     },
     getDid (name) {
