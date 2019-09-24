@@ -91,9 +91,9 @@
                   <!-- <td>{{ user.lastFailedLogin  | moment("from") }}</td> -->
                   <td>
                     <span v-if="user.demo && user.demo.cwcc">
-                      <input v-model="user.demo.cwcc.vertical" />
-                      <input v-model="user.demo.cwcc.tenantId" />
-                      <input v-model="user.demo.cwcc.reasonId" />
+                      <!-- <input placeholder="vertical" v-model="user.demo.cwcc.vertical" /> -->
+                      <input placeholder="tenantId" v-model="user.demo.cwcc.tenantId" />
+                      <input placeholder="reasonId" v-model="user.demo.cwcc.reasonId" />
                       <button class="button is-success" @click.prevent="clickUpdateConfig(user)">
                         Save CWCC Demo Config
                       </button>
