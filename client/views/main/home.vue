@@ -225,8 +225,8 @@ export default {
           message: `Please send a message to the Webex Teams support room
           to request chat provisioning, including your 4-digit user ID.
           Please allow 24-48 hours for this to be completed by the support team.
-          You will not be able to use chat in the demo until provisioning is
-          completed by the support team.`,
+          You will not be able to log in your agents to the demo until
+          provisioning is completed by the support team.`,
           type: 'is-default',
           confirmText: 'Ok'
         })
