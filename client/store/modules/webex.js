@@ -42,8 +42,8 @@ const actions = {
       console.log(action, 'failed:', e)
       // show a Toast notification on error
       Toast.open({
-        duration: 8000,
-        message: `${action} failed with this error:` + e.message,
+        duration: 14000,
+        message: `${action} failed with this error: ` + e.response.data,
         type: 'is-danger'
       })
     } finally {
