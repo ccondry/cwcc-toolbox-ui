@@ -185,11 +185,13 @@ export default {
     ]),
     verticalChanged (e) {
       console.log('vertical changed', e.target.value)
+      // copy existing config
+      const data = JSON.parse(JSON.stringify(this.demoConfig))
+      // set vertical
+      data.vertical = e.target.value
       // save vertical
       this.saveDemoConfig({
-        data: {
-          vertical: e.target.value
-        },
+        data,
         showNotification: false
       })
       // await this.loadDemoConfig(false)
