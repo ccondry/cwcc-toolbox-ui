@@ -187,7 +187,7 @@ export default {
       console.log('vertical changed', e.target.value)
       // construct data body to send to API
       const data = {
-        vertical = e.target.value
+        vertical: e.target.value
       }
       // save vertical
       this.saveDemoConfig({
