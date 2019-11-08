@@ -1,21 +1,3 @@
-# dCloud CWCC Toolbox UI
-This is the website UI code for the dCloud Cisco Webex Contact Center Toolbox.
+# Vue 2 application with webpack 4 boilerplate
 
-## Installation
-```sh
-git clone https://gitlab.com/dcloud-collab/cwcc-toolbox-ui.git
-cd cwcc-toolbox-ui
-npm install
-```
-
-## Build/Run in Development
-```sh
-npm run dev
-```
-
-## Build/Run in Production
-Copy files to your www/html folder (or wherever you have your web server pointing to).
-```sh
-npm run build
-cp cwcc-toolbox-ui/dist/* /var/www/html/
-```
+This repo is a support for [this article](https://medium.com/js-dojo/how-to-configure-webpack-4-with-vuejs-a-complete-guide-209e943c4772) published on Medium
