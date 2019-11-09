@@ -41,21 +41,24 @@ const actions = {
     }
   },
   async disableVirtualTeam ({getters, commit, dispatch}, {id, showNotification = true}) {
-    console.log('disableVirtualTeam', id, '...')
+    if (!team || !team.id) {
+      throw new Error('disableVirtualTeam requires team object as input')
+    }
+    console.log('disableVirtualTeam', team.id, '...')
     dispatch('setWorking', {group: 'cwcc', type: 'virtualTeam', value: true})
     try {
       await dispatch('postData', {
         name: 'disable virtual team',
-        endpoint: getters.endpoints.virtualTeam + '/' + id + '/disable',
+        endpoint: getters.endpoints.virtualTeam + '/' + team.id + '/disable',
         showNotification
       })
       console.log('disableVirtualTeam successful')
     } catch (e) {
-      console.error('error disabling virtual team', id, e.message)
+      console.error('error disabling virtual team', team.id, e.message)
       // notify user
       Toast.open({
         duration: 8000,
-        message: `disable virtual team ${id} failed: ${e.message}`,
+        message: `disable virtual team ${team.id} failed: ${e.message}`,
         // position: 'is-bottom',
         type: 'is-danger'
       })
@@ -63,7 +66,58 @@ const actions = {
       dispatch('setWorking', {group: 'cwcc', type: 'virtualTeam', value: false})
     }
   },
-
+  async enableVirtualTeam ({getters, commit, dispatch}, {team, showNotification = true}) {
+    if (!team || !team.id) {
+      throw new Error('enableVirtualTeam requires team object as input')
+    }
+    console.log('enableVirtualTeam', team.id, '...')
+    dispatch('setWorking', {group: 'cwcc', type: 'virtualTeam', value: true})
+    try {
+      await dispatch('postData', {
+        name: 'disable virtual team',
+        endpoint: getters.endpoints.virtualTeam + '/' + team.id + '/enable',
+        showNotification
+      })
+      console.log('enableVirtualTeam successful')
+    } catch (e) {
+      console.error('enableVirtualTeam', team.id, e.message)
+      // notify user
+      Toast.open({
+        duration: 8000,
+        message: `enable virtual team ${team.id} failed: ${e.message}`,
+        // position: 'is-bottom',
+        type: 'is-danger'
+      })
+    } finally {
+      dispatch('setWorking', {group: 'cwcc', type: 'virtualTeam', value: false})
+    }
+  },
+  async deleteVirtualTeam ({getters, commit, dispatch}, {team, showNotification = true}) {
+    if (!team || !team.id) {
+      throw new Error('deleteVirtualTeam requires team object as input')
+    }
+    console.log('deleteVirtualTeam', team.id, '...')
+    dispatch('setWorking', {group: 'cwcc', type: 'virtualTeam', value: true})
+    try {
+      await dispatch('deleteData', {
+        name: 'delete virtual team',
+        endpoint: getters.endpoints.virtualTeam + '/' + team.id,
+        showNotification
+      })
+      console.log('deleteVirtualTeam successful')
+    } catch (e) {
+      console.error('enableVirtualTeam', team.id, e.message)
+      // notify user
+      Toast.open({
+        duration: 8000,
+        message: `delete virtual team ${team.id} failed: ${e.message}`,
+        // position: 'is-bottom',
+        type: 'is-danger'
+      })
+    } finally {
+      dispatch('setWorking', {group: 'cwcc', type: 'virtualTeam', value: false})
+    }
+  }
 }
 
 export default {
