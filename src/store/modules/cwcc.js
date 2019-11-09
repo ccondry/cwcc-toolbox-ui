@@ -40,7 +40,7 @@ const actions = {
       dispatch('setLoading', {group: 'cwcc', type: 'virtualTeam', value: false})
     }
   },
-  async disableVirtualTeam ({getters, commit, dispatch}, {id, showNotification = true}) {
+  async disableVirtualTeam ({getters, commit, dispatch}, {team, showNotification = true}) {
     if (!team || !team.id) {
       throw new Error('disableVirtualTeam requires team object as input')
     }
