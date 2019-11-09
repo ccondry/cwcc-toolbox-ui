@@ -219,6 +219,10 @@ export default {
       'virtualTeams'
     ]),
     tData () {
+      if (!this.virtualTeams || !Array.isArray(this.virtualTeams)) {
+        return []
+      }
+
       const data = duplicate(this.virtualTeams)
       .map(v => {
         const channelTypes = {

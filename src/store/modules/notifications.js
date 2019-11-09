@@ -41,10 +41,10 @@ const actions = {
   successNotification ({state}, options) {
     if (typeof options === 'string') {
       return openNotification({
-        title: options,
-        message: '',
-        type: 'success',
-        duration: 2500
+        // title: options,
+        message: options,
+        type: 'success'
+        // duration: 2500
       })
     } else {
       return openNotification({
@@ -58,8 +58,8 @@ const actions = {
   errorNotification ({state}, options) {
     if (typeof options === 'string') {
       return openNotification({
-        title: options,
-        message: '',
+        // title: options,
+        message: options,
         type: 'danger',
         duration: 8000
       })
