@@ -81,15 +81,68 @@ export default {
   },
 
   computed: {
-    ...mapGetters({
-      pkginfo: 'pkg',
-      sidebar: 'sidebar',
-      authenticated: 'authenticated',
-      user: 'user',
-      instance: 'instance',
-      'currentInstance': 'currentInstance',
-      'isProduction': 'isProduction'
-    }),
+    ...mapGetters([
+      'sidebar',
+      'authenticated',
+      'user',
+      'instance',
+      'currentInstance',
+      'isProduction',
+      'isCxdemo',
+      'isDcloud'
+    ]),
+    links () {
+      // the list of navigation links to show this user
+      const ret = []
+      // show customer profiles and branding to everyone
+      ret.push({
+        href: '/customer',
+        text: 'Customer Profiles'
+      })
+      ret.push({
+        href: '/branding',
+        text: 'Demo Branding'
+      })
+
+      // only show dCloud CC demos if on dcloud.cisco.com domain. but show all to admins.
+      if (this.isDcloud || this.user.admin) {
+        ret.push({
+          href: '/pcce',
+          text: 'Packaged Contact Center Enterprise 11.6v3 Instant Demo'
+        })
+        ret.push({
+          href: '/uccx',
+          text: 'Unified Contact Center Express 12.0v2 Instant Demo'
+        })
+        ret.push({
+          href: '/cwcc',
+          text: 'Webex Contact Center v1 Instant Demo'
+        })
+      }
+
+      // only show cxdemo demos if on cxdemo.net domain.
+      if (this.isCxdemo) {
+        ret.push({
+          href: '/chat',
+          text: 'Facebook & SMS Entry Points'
+        })
+        ret.push({
+          href: '/cjp-ccone',
+          text: 'CJP CCOne Demo'
+        })
+        ret.push({
+          href: '/cjp-webex',
+          text: 'CJP Webex Demo'
+        })
+        ret.push({
+          href: '/cwcc-tsa',
+          text: 'CWCC TSA Demo'
+        })
+      }
+      // return list
+      return ret
+    },
+
     userPage () {
       if (this.isProduction) {
         return '/auth/user'
