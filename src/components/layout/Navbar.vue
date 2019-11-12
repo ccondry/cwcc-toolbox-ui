@@ -130,6 +130,12 @@ export default {
           text: 'CWCC TSA Demo'
         })
       }
+      if (this.user.admin || this.user.isSupport) {
+        ret.push({
+          href: '/management',
+          text: 'Management and Administration'
+        })
+      }
       // return list
       return ret
     },
