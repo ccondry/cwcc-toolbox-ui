@@ -2,17 +2,8 @@
   <b-navbar class="app-navbar">
         <template slot="start">
           <b-navbar-dropdown label="dCloud Toolbox - Cisco Webex Contact Center v1">
-              <b-navbar-item href="/customer">
-                  Customer Profiles
-              </b-navbar-item>
-              <b-navbar-item href="/branding">
-                  Brand Editor
-              </b-navbar-item>
-              <b-navbar-item href="/pcce">
-                  Packaged Contact Center Enterprise 11.6v3
-              </b-navbar-item>
-              <b-navbar-item href="/uccx">
-                  Unified Contact Center Express 12.0v2
+              <b-navbar-item v-for="link of links" :href="link.href">
+                  {{ link.text }}
               </b-navbar-item>
           </b-navbar-dropdown>
         </template>
