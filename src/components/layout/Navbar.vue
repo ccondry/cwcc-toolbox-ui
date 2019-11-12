@@ -10,7 +10,7 @@
 
         <template slot="end">
             <b-navbar-item tag="div" v-if="authenticated">
-              {{ user.username }} ({{ user.id }})&nbsp;
+              {{ user.username }} ({{ user.id }})&nbsp;&nbsp;
               <a @click="clickLogout">Log Out</a>
             </b-navbar-item>
             <b-navbar-item tag="div" v-else>
