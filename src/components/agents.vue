@@ -79,14 +79,16 @@ export default {
     },
     clickCopy (s, type) {
       // copy text to clipboard
-      const input = document.createElement('input')
-      document.body.appendChild(input)
+      // const input = document.createElement('input')
+      const input = document.getElementById('copy-paste')
+      // document.body.appendChild(input)
       input.value = s
       input.focus()
       input.select()
       const result = document.execCommand('copy')
       // input.remove
-      document.body.removeChild(input)
+      input.value = ''
+      // document.body.removeChild(input)
       if (result === 'unsuccessful') {
         // failed
         console.error('Failed to copy text.')
