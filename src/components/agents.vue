@@ -85,6 +85,8 @@ export default {
       input.focus()
       input.select()
       const result = document.execCommand('copy')
+      // input.remove
+      document.body.removeChild(input)
       if (result === 'unsuccessful') {
         // failed
         console.error('Failed to copy text.')
@@ -100,7 +102,6 @@ export default {
           queue: false
         })
       }
-      document.body.removeChild(input)
     }
   }
 }
