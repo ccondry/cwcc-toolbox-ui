@@ -95,7 +95,7 @@ export default {
         //   type: 'is-success',
         //   position: 'is-top'
         // })
-        this.$toast.open({
+        this.$buefy.toast.open({
           message: type + ' Copied to Your Clipboard',
           queue: false
         })
