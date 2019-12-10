@@ -91,12 +91,6 @@ export default {
         // failed
         console.error('Failed to copy text.')
       } else {
-        // success
-        // this.$snackbar.open({
-        //   message: 'Text Copied',
-        //   type: 'is-success',
-        //   position: 'is-top'
-        // })
         this.$buefy.toast.open({
           message: type + ' Copied to Your Clipboard',
           queue: false
