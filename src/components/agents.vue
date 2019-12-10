@@ -100,7 +100,7 @@ export default {
           queue: false
         })
       }
-      input.remove()
+      document.body.removeChild(input)
     }
   }
 }
