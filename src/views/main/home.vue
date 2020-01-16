@@ -223,9 +223,9 @@ export default {
         // after provision starts, notify the user they need to request
         // manual chat provisioning
         this.$buefy.dialog.alert({
-          title: 'Contact Support for Chat Provisioning',
+          title: 'Contact Support to Complete Provisioning',
           message: `Please send a message to the Webex Teams support room
-          to request chat provisioning, including your 4-digit user ID.
+          to complete provisioning, and please include your 4-digit user ID.
           Please allow 24-48 hours for this to be completed by the support team.
           You will not be able to log in your agents to the demo until
           provisioning is completed by the support team.`,
