@@ -1,7 +1,5 @@
 <template>
   <div>
-    <!-- this is for copy/paste javascript code -->
-    <input id="copy-paste" :v-show="false" />
     <b-loading :is-full-page="true" :active="!authCheckDone" :can-cancel="false"></b-loading>
     <div v-if="authenticated">
       <!-- endpoints have not finished loading yet -->
@@ -13,6 +11,8 @@
         <app-main></app-main>
       </div>
     </div>
+    <!-- this is for copy/paste javascript code -->
+    <input id="copy-paste" />
   </div>
 </template>
 
