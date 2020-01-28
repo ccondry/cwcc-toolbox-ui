@@ -1,7 +1,7 @@
 <template>
   <b-navbar class="app-navbar">
         <template slot="start">
-          <b-navbar-dropdown label="dCloud Toolbox - Cisco Webex Contact Center v1">
+          <b-navbar-dropdown label="dCloud Toolbox - Cisco Webex Contact Center v2">
               <b-navbar-item v-for="link of links" :href="link.href">
                   {{ link.text }}
               </b-navbar-item>
@@ -107,7 +107,7 @@ export default {
         })
         ret.push({
           href: '/cwcc',
-          text: 'Webex Contact Center v1 Instant Demo'
+          text: 'Webex Contact Center v2 Instant Demo'
         })
       }
 
