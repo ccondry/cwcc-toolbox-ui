@@ -1,11 +1,14 @@
 <template>
   <b-navbar class="app-navbar">
         <template slot="start">
-          <b-navbar-dropdown label="dCloud Toolbox - Cisco Webex Contact Center v2">
-              <b-navbar-item v-for="link of links" :href="link.href">
+          <!-- <b-navbar-dropdown label="dCloud Toolbox - Cisco Webex Contact Center v2">
+              <b-navbar-item v-for="(link, index) of links" :href="link.href" :key="index">
                   {{ link.text }}
               </b-navbar-item>
-          </b-navbar-dropdown>
+          </b-navbar-dropdown> -->
+          <b-navbar-item tag="div">
+            <a href="/">dCloud Toolbox</a>&nbsp;- Cisco Webex Contact Center v2
+          </b-navbar-item>
         </template>
 
         <template slot="end">
@@ -18,11 +21,6 @@
             </b-navbar-item>
         </template>
     </b-navbar>
-
-    <!-- <span v-if="authenticated" class="nav-item"></span>
-    <a v-if="authenticated" @click="clickLogout" class="nav-item">Logout</a>
-    <a v-if="!authenticated && !isProduction" @click="clickLogin" class="nav-item">Login</a> -->
-
     <!--
   <section class="hero is-bold app-navbar animated" :class="{ slideInDown: show, slideOutDown: !show }">
     <div class="hero-head">
