@@ -1,6 +1,6 @@
 {
   "name": "cwcc-toolbox-ui",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "dCloud demo toolbox UI for Cisco Webex Contact Center v1/v2 instant demo",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --progress",
