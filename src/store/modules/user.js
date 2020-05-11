@@ -1,6 +1,4 @@
 import * as types from '../mutation-types'
-// import axios from 'axios'
-// import { load } from '../../utils'
 
 const state = {
   user: {}
