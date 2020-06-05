@@ -127,8 +127,8 @@
         </div>
       </div>
 
-      <div class="tile is-ancestor" v-if="isProvisioned">
-        <!-- user not provisioned - show provision button -->
+      <!-- user not provisioned - show provision button -->
+      <!-- <div class="tile is-ancestor" v-if="isProvisioned">
         <div class="tile is-parent is-12">
           <article class="tile is-child box">
             <h1 class="title">Reprovision</h1>
@@ -146,7 +146,7 @@
             </b-field>
           </article>
         </div>
-      </div>
+      </div> -->
 
     </div>
 
