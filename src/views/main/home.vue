@@ -44,8 +44,11 @@
             <h1 class="title">Start</h1>
             <b-field>
               <p>
-                Your account is not provisioned for this demo yet. Would you like
-                to provision it now?
+                Provisioning for this demo is disabled. Please use the
+                <a href="/webex-v3prod/">
+                  Webex Contact Center v3 demo
+                </a> 
+                instead.
               </p>
             </b-field>
             <b-field>
