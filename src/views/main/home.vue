@@ -51,11 +51,6 @@
                 instead.
               </p>
             </b-field>
-            <b-field>
-              <button class="button is-success" @click.prevent="clickProvision" :disabled="working.user.provision">
-                {{ working.user.provision ? 'Working...' : 'Yes, Provision Me' }}
-              </button>
-            </b-field>
           </article>
         </div>
       </div>
